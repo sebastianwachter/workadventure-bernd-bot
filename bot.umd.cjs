@@ -1,0 +1,1 @@
+(function(n,e){typeof exports=="object"&&typeof module<"u"?module.exports=e():typeof define=="function"&&define.amd?define(e):(n=typeof globalThis<"u"?globalThis:n||self,n.MyBot=e())})(this,function(){"use strict";return{run:async e=>{console.log("COUCOU",e)}}});
