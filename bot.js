@@ -1,48 +1,12 @@
-class a {
+class s {
   init() {
     WA.chat.onChatMessage((e, n) => {
       console.log(`Received chat message: ${e}`, n), WA.chat.sendChatMessage(`Ich habe deine Nachricht erhalten: "${e}"`, { scope: "bubble" }), e.includes("Ping") && WA.chat.sendChatMessage("Pong!", { scope: "bubble" });
     });
   }
 }
-const t = new a();
+const a = new s();
+console.log("Script started successfully");
 WA.onInit().then(async () => {
-  t.init();
-});
-const s = {
-  // run: async (metadata: any) => {
-  //     await WA.onInit();
-  //     const therapyRoom = await WA.room.area.get(THERAPY_ROOM_AREA).catch(() => undefined);
-  //     if (!therapyRoom) {
-  //         WA.chat.sendChatMessage(`Hab den "${THERAPY_ROOM_AREA}" nicht auf der Karte gefunden, ich bleib stehen wo ich bin.`, CHAT_OPTIONS);
-  //     } else {
-  //         const position = await WA.player.getPosition();
-  //         const isInside =
-  //             position.x >= therapyRoom.x &&
-  //             position.x <= therapyRoom.x + therapyRoom.width &&
-  //             position.y >= therapyRoom.y &&
-  //             position.y <= therapyRoom.y + therapyRoom.height;
-  //         if (!isInside) {
-  //             WA.chat.sendChatMessage(`Bin nicht im "${THERAPY_ROOM_AREA}", ich lauf da mal hin.`, CHAT_OPTIONS);
-  //             await WA.player.moveTo(therapyRoom.x + therapyRoom.width / 2, therapyRoom.y + therapyRoom.height / 2);
-  //         }
-  //     }
-  //     WA.room.website.create({
-  //         name: STREAM_NAME,
-  //         url: EMBED_URL,
-  //         position: {
-  //             x: metadata?.streamX ?? therapyRoom?.x ?? 0,
-  //             y: metadata?.streamY ?? therapyRoom?.y ?? 0,
-  //             width: metadata?.streamWidth ?? 1280,
-  //             height: metadata?.streamHeight ?? 720,
-  //         },
-  //         visible: true,
-  //         allow: "autoplay; encrypted-media; fullscreen",
-  //         origin: "map",
-  //     });
-  //     WA.chat.sendChatMessage(`Ich zeig jetzt "${STREAM_NAME}" für immer`, CHAT_OPTIONS);
-  // }
-};
-export {
-  s as default
-};
+  console.log("Scripting API ready"), console.log("Player tags: ", WA.player.tags), a.init();
+}).catch((c) => console.error(c));
