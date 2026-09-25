@@ -21,6 +21,16 @@ export default {
             }
         }, { scope: "bubble" });
 
+        await WA.players.configureTracking({ players: true, movement: true });
+
+        WA.players.onPlayerEnters.subscribe((player) => {
+            WA.chat.sendChatMessage(`${player.name} taucht auf bei x=${player.position.x}, y=${player.position.y}`, CHAT_OPTIONS);
+        });
+
+        WA.players.onPlayerMoves.subscribe(({ player, newPosition }) => {
+            WA.chat.sendChatMessage(`${player.name} steht jetzt bei x=${newPosition.x}, y=${newPosition.y}`, CHAT_OPTIONS);
+        });
+
         // const therapyRoom = await WA.room.area.get(THERAPY_ROOM_AREA).catch(() => undefined);
 
         // if (!therapyRoom) {
