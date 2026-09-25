@@ -1,12 +1,17 @@
-class s {
+class c {
   init() {
-    WA.chat.onChatMessage((e, n) => {
-      console.log(`Received chat message: ${e}`, n), WA.chat.sendChatMessage(`Ich habe deine Nachricht erhalten: "${e}"`, { scope: "bubble" }), e.includes("Ping") && WA.chat.sendChatMessage("Pong!", { scope: "bubble" });
+    WA.chat.onChatMessage((e, a) => {
+      console.log(`Received chat message: ${e}`, a), WA.chat.sendChatMessage(`Ich habe deine Nachricht erhalten: "${e}"`, { scope: "bubble" }), e.includes("Ping") && WA.chat.sendChatMessage("Pong!", { scope: "bubble" });
     });
   }
 }
-const a = new s();
+const n = new c();
 console.log("Script started successfully");
-WA.onInit().then(async () => {
-  console.log("Scripting API ready"), console.log("Player tags: ", WA.player.tags), a.init();
-}).catch((c) => console.error(c));
+const t = {
+  run: async (s) => {
+    console.log("Script started successfully 2 ", s), await WA.onInit(), WA.chat.open(), WA.chat.sendChatMessage("PiPing", { scope: "bubble" }), WA.chat.sendChatMessage("PoPong", { scope: "local", author: "Bernd (Papa)" }), n.init();
+  }
+};
+export {
+  t as default
+};
