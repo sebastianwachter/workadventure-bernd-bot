@@ -3,9 +3,34 @@
 const CHAT_OPTIONS = { scope: "bubble" as const };
 const STREAM_URL = "https://1020993654.rsc.cdn77.org/Stromberg/867/1080-HLS/867_1080-HLS_.m3u8";
 const BOT_BASE_URL = "https://sebastianwachter.github.io/workadventure-bernd-bot/";
+const WEBSITE_NAME = "Bernd";
+const FOLLOW_TARGET_NAME = "Sebastian Wachter";
 
 function announce () {
     WA.chat.sendChatMessage('Der Papa ist hier!', CHAT_OPTIONS);
+}
+
+async function placeStream (x: number, y: number) {
+    const playerUrl = new URL("stream.html", BOT_BASE_URL);
+    playerUrl.searchParams.set("src", STREAM_URL);
+
+    await WA.room.website.delete(WEBSITE_NAME).catch(() => undefined);
+
+    WA.room.website.create({
+        name: WEBSITE_NAME,
+        url: playerUrl.toString(),
+        position: {
+            x,
+            y,
+            width: 1280,
+            height: 720,
+        },
+        visible: true,
+        allowApi: true,
+        allow: "autoplay; encrypted-media; fullscreen",
+        origin: "map",
+        scale: 1
+    });
 }
 
 export default {
@@ -31,6 +56,20 @@ export default {
             WA.chat.sendChatMessage(`${player.name} steht jetzt bei x=${newPosition.x}, y=${newPosition.y}`, CHAT_OPTIONS);
         });
 
+        WA.players.onPlayerMoves.subscribe(async ({ player, newPosition }) => {
+            if (player.name !== FOLLOW_TARGET_NAME) {
+                return;
+            }
+
+            try {
+                await WA.player.moveTo(newPosition.x, newPosition.y);
+                const botPosition = await WA.player.getPosition();
+                await placeStream(botPosition.x, botPosition.y);
+            } catch (error) {
+                WA.chat.sendChatMessage(`Hinterherlaufen ging schief: ${error}`, CHAT_OPTIONS);
+            }
+        });
+
         // const therapyRoom = await WA.room.area.get(THERAPY_ROOM_AREA).catch(() => undefined);
 
         // if (!therapyRoom) {
@@ -50,26 +89,8 @@ export default {
         // }
 
         try {
-            const playerUrl = new URL("stream.html", BOT_BASE_URL);
-            playerUrl.searchParams.set("src", STREAM_URL);
-
-            WA.room.website.create({
-                name: "Bernd",
-                url: playerUrl.toString(),
-                position: {
-                    x: 0,
-                    y: 0,
-                    width: 1280,
-                    height: 720,
-                },
-                visible: true,
-                allowApi: true,
-                allow: "autoplay; encrypted-media; fullscreen",
-                origin: "player",
-                scale: 1
-            });
-
             const botPosition = await WA.player.getPosition();
+            await placeStream(botPosition.x, botPosition.y);
             WA.chat.sendChatMessage(`Stream läuft bei x=${botPosition.x}, y=${botPosition.y}`, CHAT_OPTIONS);
         } catch (error) {
             WA.chat.sendChatMessage(`Stream ging nicht auf: ${error}`, CHAT_OPTIONS);
