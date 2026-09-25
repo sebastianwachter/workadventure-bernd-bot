@@ -1,12 +1,16 @@
-const s = { scope: "bubble" };
-console.log("Script started successfully");
-const t = {
-  run: async (a) => {
-    console.log("Script started successfully 2 ", a), await WA.onInit(), WA.chat.open(), WA.chat.sendChatMessage("PiPiPiPing", s), WA.chat.onChatMessage((e, c) => {
-      console.log(`Received chat message: ${e}`, c), WA.chat.sendChatMessage(`Ich habe deine Nachricht erhalten: "${e}"`, s), e === "Ping" && WA.chat.sendChatMessage("Pong!", s);
+const n = { scope: "bubble" };
+function a() {
+  WA.chat.sendChatMessage("Der Papa ist hier!", n);
+}
+const s = {
+  run: async (t) => {
+    await WA.onInit(), WA.chat.open(), a(), WA.player.proximityMeeting.onFollowed().subscribe(async (e) => {
+      (await WA.player.moveTo(e.position.x, e.position.y)).cancelled || (WA.chat.open(), a());
+    }), WA.chat.onChatMessage((e) => {
+      e === "Ping" && WA.chat.sendChatMessage("Pong!", n);
     }, { scope: "bubble" });
   }
 };
 export {
-  t as default
+  s as default
 };
