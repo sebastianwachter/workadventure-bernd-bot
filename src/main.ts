@@ -15,7 +15,7 @@ export default {
 
         WA.chat.open()
 
-        WA.chat.sendChatMessage('PiPing', CHAT_OPTIONS);
+        WA.chat.sendChatMessage('PiPiPiPing', CHAT_OPTIONS);
 
         WA.chat.onChatMessage((message, event) => {
             console.log(`Received chat message: ${message}`, event);
