@@ -1,10 +1,6 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 
 const CHAT_OPTIONS = { scope: "bubble" as const };
-const WEBSITE_OFFSET = {
-    x: 0,
-    y: 0,
-};
 const STREAM_URL = "https://1020993654.rsc.cdn77.org/Stromberg/867/1080-HLS/867_1080-HLS_.m3u8";
 const BOT_BASE_URL = "https://sebastianwachter.github.io/workadventure-bernd-bot/";
 
@@ -43,8 +39,6 @@ export default {
         //     }
         // }
 
-        const botPosition = await WA.player.getPosition();
-
         try {
             const playerUrl = new URL("stream.html", BOT_BASE_URL);
             playerUrl.searchParams.set("src", STREAM_URL);
@@ -53,29 +47,20 @@ export default {
                 name: "Bernd",
                 url: playerUrl.toString(),
                 position: {
-                    x: botPosition.x + WEBSITE_OFFSET.x,
-                    y: botPosition.y + WEBSITE_OFFSET.y,
+                    x: 0,
+                    y: 0,
                     width: 1280,
                     height: 720,
                 },
                 visible: true,
                 allowApi: true,
                 allow: "autoplay; encrypted-media; fullscreen",
-                origin: "map",
+                origin: "player",
                 scale: 1
             });
 
-            WA.chat.sendChatMessage(`Ich zeig jetzt den Stream`, CHAT_OPTIONS);
-
-            try {
-                const check = await WA.room.website.get("Bernd");
-                WA.chat.sendChatMessage(
-                    `Debug: WA kennt "Bernd" bei x=${check.x} y=${check.y} w=${check.width} h=${check.height} visible=${check.visible} url=${check.url}`,
-                    CHAT_OPTIONS
-                );
-            } catch (checkError) {
-                WA.chat.sendChatMessage(`Debug: WA.room.website.get("Bernd") ist explodiert: ${checkError}`, CHAT_OPTIONS);
-            }
+            const botPosition = await WA.player.getPosition();
+            WA.chat.sendChatMessage(`Stream läuft bei x=${botPosition.x}, y=${botPosition.y}`, CHAT_OPTIONS);
         } catch (error) {
             WA.chat.sendChatMessage(`Stream ging nicht auf: ${error}`, CHAT_OPTIONS);
         }
