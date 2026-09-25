@@ -1,11 +1,10 @@
 /// <reference types="@workadventure/iframe-api-typings" />
-import { bernd } from './bernd'
 
 // const VIDEO_ID = "2yJgwwDcgV8";
 // const STREAM_NAME = "bernd-test-stream";
 // const THERAPY_ROOM_AREA = "therapy-room";
 // const EMBED_URL = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&controls=1`;
-// const CHAT_OPTIONS = { scope: "bubble" as const };
+const CHAT_OPTIONS = { scope: "bubble" as const };
 
 console.log('Script started successfully');
 
@@ -16,10 +15,15 @@ export default {
 
         WA.chat.open()
 
-        WA.chat.sendChatMessage('PiPing', { scope: "bubble" as const });
-        WA.chat.sendChatMessage('PoPong', { scope: 'local', author: 'Bernd (Papa)' });
+        WA.chat.sendChatMessage('PiPing', CHAT_OPTIONS);
 
-        bernd.init()
+        WA.chat.onChatMessage((message, event) => {
+            console.log(`Received chat message: ${message}`, event);
+            WA.chat.sendChatMessage(`Ich habe deine Nachricht erhalten: "${message}"`, CHAT_OPTIONS);
+            if (message === "Ping") {
+                WA.chat.sendChatMessage(`Pong!`, CHAT_OPTIONS);
+            }
+        });
 
         // const therapyRoom = await WA.room.area.get(THERAPY_ROOM_AREA).catch(() => undefined);
 
