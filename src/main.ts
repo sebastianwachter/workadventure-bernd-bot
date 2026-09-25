@@ -1,10 +1,10 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 
-// const VIDEO_ID = "2yJgwwDcgV8";
-// const STREAM_NAME = "bernd-test-stream";
-// const THERAPY_ROOM_AREA = "therapy-room";
-// const EMBED_URL = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&controls=1`;
 const CHAT_OPTIONS = { scope: "bubble" as const };
+const WEBSITE_OFFSET = {
+    x: 0,
+    y: 0,
+};
 
 function announce () {
     WA.chat.sendChatMessage('Der Papa ist hier!', CHAT_OPTIONS);
@@ -16,15 +16,6 @@ export default {
 
         WA.chat.open()
         announce();
-        
-
-        WA.player.proximityMeeting.onFollowed().subscribe(async (player) => {
-            const result = await WA.player.moveTo(player.position.x, player.position.y);
-            if (!result.cancelled) {
-                WA.chat.open()
-                announce();
-            }
-        });
 
         WA.chat.onChatMessage((message) => {
             if (message === "Ping") {
@@ -50,20 +41,24 @@ export default {
         //     }
         // }
 
-        // WA.room.website.create({
-        //     name: STREAM_NAME,
-        //     url: EMBED_URL,
-        //     position: {
-        //         x: metadata?.streamX ?? therapyRoom?.x ?? 0,
-        //         y: metadata?.streamY ?? therapyRoom?.y ?? 0,
-        //         width: metadata?.streamWidth ?? 1280,
-        //         height: metadata?.streamHeight ?? 720,
-        //     },
-        //     visible: true,
-        //     allow: "autoplay; encrypted-media; fullscreen",
-        //     origin: "map",
-        // });
+        const botPosition = await WA.player.getPosition();
 
-        // WA.chat.sendChatMessage(`Ich zeig jetzt "${STREAM_NAME}" für immer`, CHAT_OPTIONS);
+        WA.room.website.create({
+            name: "Bernd",
+            url: "https://1020993654.rsc.cdn77.org/Stromberg/867/1080-HLS/867_1080-HLS_.m3u8",
+            position: {
+                x: botPosition.x + WEBSITE_OFFSET.x,
+                y: botPosition.y + WEBSITE_OFFSET.y,
+                width: 1280,
+                height: 720,
+            },
+            visible: true,
+            allowApi: true,
+            allow: "autoplay; encrypted-media; fullscreen",
+            origin: "map",
+            scale: 1
+        });
+
+        WA.chat.sendChatMessage(`Ich zeig jetzt den Stream`, CHAT_OPTIONS);
     }
 }
