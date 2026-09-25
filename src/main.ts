@@ -6,20 +6,27 @@
 // const EMBED_URL = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&controls=1`;
 const CHAT_OPTIONS = { scope: "bubble" as const };
 
-console.log('Script started successfully');
+function announce () {
+    WA.chat.sendChatMessage('Der Papa ist hier!', CHAT_OPTIONS);
+}
 
 export default {
-    run: async (metadata: any) => {
-        console.log('Script started successfully 2 ', metadata);
+    run: async (_metadata: any) => {
         await WA.onInit();
 
         WA.chat.open()
+        announce();
+        
 
-        WA.chat.sendChatMessage('PiPiPiPing', CHAT_OPTIONS);
+        WA.player.proximityMeeting.onFollowed().subscribe(async (player) => {
+            const result = await WA.player.moveTo(player.position.x, player.position.y);
+            if (!result.cancelled) {
+                WA.chat.open()
+                announce();
+            }
+        });
 
-        WA.chat.onChatMessage((message, event) => {
-            console.log(`Received chat message: ${message}`, event);
-            WA.chat.sendChatMessage(`Ich habe deine Nachricht erhalten: "${message}"`, CHAT_OPTIONS);
+        WA.chat.onChatMessage((message) => {
             if (message === "Ping") {
                 WA.chat.sendChatMessage(`Pong!`, CHAT_OPTIONS);
             }
