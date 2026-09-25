@@ -23,7 +23,7 @@ export default {
             if (message === "Ping") {
                 WA.chat.sendChatMessage(`Pong!`, CHAT_OPTIONS);
             }
-        });
+        }, { scope: "bubble" });
 
         // const therapyRoom = await WA.room.area.get(THERAPY_ROOM_AREA).catch(() => undefined);
 
