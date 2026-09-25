@@ -1,11 +1,11 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 import { bernd } from './bernd'
 
-const VIDEO_ID = "2yJgwwDcgV8";
-const STREAM_NAME = "bernd-test-stream";
-const THERAPY_ROOM_AREA = "therapy-room";
-const EMBED_URL = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&controls=1`;
-const CHAT_OPTIONS = { scope: "bubble" as const };
+// const VIDEO_ID = "2yJgwwDcgV8";
+// const STREAM_NAME = "bernd-test-stream";
+// const THERAPY_ROOM_AREA = "therapy-room";
+// const EMBED_URL = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&controls=1`;
+// const CHAT_OPTIONS = { scope: "bubble" as const };
 
 WA.onInit().then(async () => {
     bernd.init();
