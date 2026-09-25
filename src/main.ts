@@ -7,13 +7,17 @@ import { bernd } from './bernd'
 // const EMBED_URL = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&controls=1`;
 // const CHAT_OPTIONS = { scope: "bubble" as const };
 
+console.log('Script started successfully');
+
 WA.onInit().then(async () => {
+    console.log('Scripting API ready');
+    console.log('Player tags: ',WA.player.tags)
     bernd.init();
-})
+}).catch(e => console.error(e))
 
 export {}
 
-export default {
+// export default {
     // run: async (metadata: any) => {
     //     await WA.onInit();
 
@@ -51,4 +55,4 @@ export default {
 
     //     WA.chat.sendChatMessage(`Ich zeig jetzt "${STREAM_NAME}" für immer`, CHAT_OPTIONS);
     // }
-}
+// }
