@@ -66,6 +66,16 @@ export default {
             });
 
             WA.chat.sendChatMessage(`Ich zeig jetzt den Stream`, CHAT_OPTIONS);
+
+            try {
+                const check = await WA.room.website.get("Bernd");
+                WA.chat.sendChatMessage(
+                    `Debug: WA kennt "Bernd" bei x=${check.x} y=${check.y} w=${check.width} h=${check.height} visible=${check.visible} url=${check.url}`,
+                    CHAT_OPTIONS
+                );
+            } catch (checkError) {
+                WA.chat.sendChatMessage(`Debug: WA.room.website.get("Bernd") ist explodiert: ${checkError}`, CHAT_OPTIONS);
+            }
         } catch (error) {
             WA.chat.sendChatMessage(`Stream ging nicht auf: ${error}`, CHAT_OPTIONS);
         }
