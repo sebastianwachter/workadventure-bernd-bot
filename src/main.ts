@@ -5,6 +5,7 @@ const WEBSITE_OFFSET = {
     x: 0,
     y: 0,
 };
+const STREAM_URL = "https://1020993654.rsc.cdn77.org/Stromberg/867/1080-HLS/867_1080-HLS_.m3u8";
 
 function announce () {
     WA.chat.sendChatMessage('Der Papa ist hier!', CHAT_OPTIONS);
@@ -43,9 +44,12 @@ export default {
 
         const botPosition = await WA.player.getPosition();
 
+        const playerUrl = new URL("stream.html", import.meta.url);
+        playerUrl.searchParams.set("src", STREAM_URL);
+
         WA.room.website.create({
             name: "Bernd",
-            url: "https://1020993654.rsc.cdn77.org/Stromberg/867/1080-HLS/867_1080-HLS_.m3u8",
+            url: playerUrl.toString(),
             position: {
                 x: botPosition.x + WEBSITE_OFFSET.x,
                 y: botPosition.y + WEBSITE_OFFSET.y,
